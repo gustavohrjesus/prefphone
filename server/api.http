@@ -1,0 +1,13 @@
+POST http://localhost:3000/getInfo
+Content-Type: application/json
+
+### BLOCO ACIMA: PUBLIC ROUTE (sem token) - LISTA DE TODAS INFOS - PERFIL OPERADOR
+
+POST http://localhost:3000/getInfosById
+Content-Type: application/json
+
+{
+    "infoCod" : 1
+}
+
+### BLOCO ACIMA: PUBLIC ROUTE (sem token) - LISTA DE INFOS BY ID - PERFIL OPERADOR
