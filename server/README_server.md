@@ -26,13 +26,13 @@ Como solucao, para rodar o nodemon, utilizamos o comando abaixo, que chama o nod
 
 ## INSTALAÇÃO DA BIBLIOTECA __dotenv__ QUE SERVE PARA TERMOS UM ARQUIVO DE CONFIGURAÇÃO DA NOSSA MÁQUINA, INDICA AS CHAVES DE API, DOMINIOS DE BANCOS DE DADOS (USUARIOS, BD). O ARQUIVO *NÃO É VERSIONADO*
 `npm install dotenv`
-***
 
 ## MYSQL
 `npm add mysql`
 
 # INSTALANDO O CORS NO BACKEND PARA QUE O FRONTEND POSSA ACESSA-LO
 `npm install cors`
+***
 
 # ---- AINDA FALTAM INSTALAR AS LIBS ABAIXO
 ## BCRYPT

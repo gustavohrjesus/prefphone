@@ -1,13 +1,52 @@
-POST http://localhost:3000/getInfo
+GET http://localhost:3000/getInfos
 Content-Type: application/json
-
 ### BLOCO ACIMA: PUBLIC ROUTE (sem token) - LISTA DE TODAS INFOS - PERFIL OPERADOR
 
 POST http://localhost:3000/getInfosById
 Content-Type: application/json
 
 {
-    "infoCod" : 1
+    "infoCod" : 300
 }
-
 ### BLOCO ACIMA: PUBLIC ROUTE (sem token) - LISTA DE INFOS BY ID - PERFIL OPERADOR
+
+POST http://localhost:3000/registerInfos
+Content-Type: application/json
+## Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicGVyZmlsIjoxLCJpYXQiOjE3MjkwMDkzODAsImV4cCI6MTcyOTAwOTUwMH0.rYWGnjYWnR8YoOkmIY8x4I7mijudplYgfaJpynrlVfM
+
+{
+    "info_secretar" : "comad4",
+    "info_sect" : "comad_info4",
+    "info_addr" : "comad_nicolauZarvos4",
+    "info_typconn" : "",
+    "info_ip" : "",
+    "info_email" : "comad4@lins.sp.gov.br",
+    "info_name" : "comad_nome4",
+    "info_obs" : "",
+    "info_fonemain" : "35334351",
+    "info_fonesecond" : "35337000",
+    "info_fonemobil" : "998887045",
+    "info_foneddr" : "35334351"
+}
+### BLOCO ACIMA: PRIVATE ROUTE (com token) - CADASTRA NOVA INFORMACAO - PERFIL ADMIN
+
+PUT http://localhost:3000/updateInfos
+Content-Type: application/json
+## Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicGVyZmlsIjoxLCJpYXQiOjE3MjkwMDkzODAsImV4cCI6MTcyOTAwOTUwMH0.rYWGnjYWnR8YoOkmIY8x4I7mijudplYgfaJpynrlVfM
+
+{
+    "info_id" : 300,
+    "info_secretar" : "comad6",
+    "info_sect" : "comad_info_6",
+    "info_addr" : "comad_nicolauZarvos6",
+    "info_typconn" : "",
+    "info_ip" : "",
+    "info_email" : "comad1@lins.sp.gov.br",
+    "info_name" : "comad_nome0",
+    "info_obs" : "",
+    "info_fonemain" : "12341234",
+    "info_fonesecond" : "35332222",
+    "info_fonemobil" : "",
+    "info_foneddr" : "35331111"
+}
+### BLOCO ACIMA: PRIVATE ROUTE (com token) - ATUALIZA INFORMACAO - PERFIL ADMIN

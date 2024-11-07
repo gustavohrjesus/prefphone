@@ -46,21 +46,23 @@ router.put( '/updateInfos', async (req, res) => {
         console.log('privr -> updateInfos', req.body)
         const info = req.body
 
-        const infoId  = req.body.infoId;
-        const secr    = req.body.secr.toLowerCase().trim();
-        const local   = req.body.local.toLowerCase().trim();
-        const ender   = req.body.ender.toLowerCase().trim();
-        const tipconn = req.body.tipconn.toLowerCase().trim();
+        const infoId  = req.body.info_id;
+        const secr    = req.body.info_secretar.toLowerCase().trim();
+        const local   = req.body.info_sect.toLowerCase().trim();
+        const ender   = req.body.info_addr.toLowerCase().trim();
+        const tipconn = req.body.info_typconn.toLowerCase().trim();
 
-        const ip    = req.body.ip.toLowerCase().trim();
-        const email   = req.body.email.toLowerCase().trim();
-        const nome   = req.body.nome.toLowerCase().trim();
-        const obs = req.body.obs.toLowerCase().trim();
+        const ip    = req.body.info_ip.toLowerCase().trim();
+        const email   = req.body.info_email.toLowerCase().trim();
+        const nome   = req.body.info_name.toLowerCase().trim();
+        const obs = req.body.info_obs.toLowerCase().trim();
 
-        const fone    = req.body.fone.toLowerCase().trim();
-        const foneaux   = req.body.foneaux.toLowerCase().trim();
-        const fonecel   = req.body.fonecel.toLowerCase().trim();
-        const foneddr = req.body.foneddr.toLowerCase().trim();
+        const fone    = req.body.info_fonemain.toLowerCase().trim();
+        const foneaux   = req.body.info_fonesecond.toLowerCase().trim();
+        const fonecel   = req.body.info_fonemobil.toLowerCase().trim();
+
+        // const foneddr = req.body.foneddr.toLowerCase().trim();
+        const foneddr = "";
 
         let sqlUpdInfos = `UPDATE informacoes SET info_secr = ${secr}, info_local = ${local}, info_ender = ${ender}, info_tipconn = ${tipconn},`
                          +` info_ip = ${ip}, info_email = ${email}, info_nome = ${nome}, info_obs = ${obs}`
@@ -71,12 +73,14 @@ router.put( '/updateInfos', async (req, res) => {
             , [ secr, local, ender, tipconn, ip, email, nome, obs, infoId ], (err, response) => {
 
             if(err){
+                console.log(`update-infos`, err )
                 return res.status(500).json({ msg: 'Erro no servidor! Tente novamente mais tarde.' })
             }
 
             db.query("UPDATE telefones SET fone_info = ?, fone_info_aux = ?, fone_info_cel = ?, fone_ddr = ? WHERE fone_codinfofone = ?", 
                         [ fone, foneaux, fonecel, foneddr, infoId ], (err, response)=>{
                 if(err){
+                    console.log( `update-fones`, err )
                     return res.status(500).json( { msg: "Erro no servidor! Tente novamente mais tarde." } )
                 }
 
