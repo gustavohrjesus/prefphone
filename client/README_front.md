@@ -49,6 +49,8 @@ e colocamos no arquivo *./src/index.css* as diretivas abaixo:
 # INSTALANDO O CORS NO BACKEND PARA QUE O FRONTEND POSSA ACESSA-LO
 `npm install cors`
 
+## INSTALAÇÃO REACT-TOASTIFY
+`npm install --save react-toastify`
 
 ***
 # ERRROS E SOLUCOES

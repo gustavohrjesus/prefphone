@@ -1,0 +1,30 @@
+.myUL {
+    /* Remove default list styling */
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* //! by gustavo */
+.dropdown-content {
+    min-width: 69%;
+    /* max-width: 20%; */
+    position: absolute;
+    background-color: #f9f9f9;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 99;
+}
+
+.dropdown-content li{
+    width: 100%;
+    border: 1px solid #ddd; /* Add a border to all links */
+    margin-top: -1px; /* Prevent double borders */
+    background-color: #f6f6f6;
+
+    padding: 0.4rem 0.7rem;
+    cursor: pointer;
+}
+
+.dropdown-content li:hover  {
+    background-color: #eee;
+}
