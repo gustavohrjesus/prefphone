@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import api from "../../services/api"
 
@@ -33,9 +33,22 @@ export function Main() {
     const [ observation, setObservation] = useState('')
 
     const [ isActive, setIsActive ] = useState('')
+    const navigate = useNavigate()
+
+    
+    const token = localStorage.getItem("token")
 
     const headers = {
-        'Content-type': 'application/json'
+        'Content-type': 'application/json',
+        'Authorization' : `Bearer ${ token }`
+    }
+
+    const checkToken = () => {
+        // console.log(`front -> main -> token: `, token)
+        if( !token ){
+            navigate('/login')
+        }
+        getAllInfos()
     }
 
     async function handleSubmit( event ){
@@ -45,8 +58,28 @@ export function Main() {
         try {
             if( !idInfo && secretariat && sector && name && foneMain ){
                 console.log( '--- CADASTRAR FONE --- ' )
+                await api.post( '/registerInfos', {
+                    info_id: idInfo,
+                    info_name: name,
+                    info_secretar: secretariat,
+                    info_sect: sector,
+                    info_addr: address,
+                    info_typconn: typConn,
+                    info_ip: ip, 
+                    info_email: email,
+                    info_fonemain: foneMain,
+                    info_fonesecond: foneSecond,
+                    info_fonemobil: foneMobile,
+                    info_obs:observation
+                }, { headers } )
+                .then( (response) => {
+                    getAllInfos()
+                    toast.success(response.data.msg)
+                    clearField()
+                })
             } else if( idInfo && secretariat && sector && name && foneMain ) {
                 console.log( '--- EDITAR FONE --- ' )
+                // console.log(headers)
                 await api.put('/updateInfos', {
                     info_id: idInfo,
                     info_name: name,
@@ -62,18 +95,18 @@ export function Main() {
                     info_obs:observation
                 }, { headers })
                 .then( (response) => {
-                    console.log( response.data.msg )
                     getAllInfos()
                     toast.success(response.data.msg)
+                    clearField()
                 })
             } else {
                 console.log('Preencha corretamente os campos obrigatorios!')
                 toast.error(`Preencha corretamente os campos obrigatorios!`)
             }
         } catch (error) {
-            console.log(error)
-            console.log(error.response.data.msg)
+            console.log(`catch: ` , error, error.response.data.msg)
             toast.error(error.response.data.msg)
+            // console.log(error.response.data.msg)
         }
     }
 
@@ -99,12 +132,12 @@ export function Main() {
             // await api.get('/getInfos', {}, { headers })
             await api.get('/getInfosFones', {}, { headers })
             .then( (response) => {
-                console.log(response.data.result)
                 setListInfo(response.data.result)
             } )
         } catch (error) {
             setListInfo([])
             console.log(error.response.data.msg)
+            toast.error(error.response.data.msg)
         }
     }
 
@@ -112,7 +145,7 @@ export function Main() {
     if( listInfo !== '' && listInfo.length > 0  ){
         filteredInfos = sector.length > 0
             ? (
-                listInfo.filter( info => ( info.info_secr.toLowerCase()+"-"+info.info_local.toLowerCase()+"-"+info.info_nome.toLowerCase())
+                listInfo.filter( info => ( info.info_local.toLowerCase()+"-"+info.info_secr.toLowerCase()+"-"+info.info_nome.toLowerCase())
                                           .includes(sector.toLowerCase()) )
             )
             : []
@@ -156,16 +189,37 @@ export function Main() {
         setObservation( '' )
     }
 
+    const logout = () =>{
+        localStorage.removeItem("token")
+        api.defaults.headers.Authorization = null
+        toast.error(`Sessao encerrada!`)
+
+        navigate('/login')
+    }
+
+    
+
     useEffect( () => {
-        getAllInfos()
+        checkToken()
+        // getAllInfos()
     }, [])
 
     return (
         <div className="max-w-5xl mx-auto mt-10 bg-white p-8 border border-gray-300 rounded-lg shadow-lg">
+            
+            <div className="text-end">
+                <button type="button" 
+                        className="w-1/12 bg-cyan-900 text-white py-2 px-4 rounded-md hover:bg-cyan-800" 
+                        onClick={ () => logout() } >
+                    Logout
+                </button>
+            </div>
+
             <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">Lista de Ramais - Principal</h2>
+
             <form className="flex flex-col gap-4" onSubmit={ handleSubmit }>
                 <div className=" flex flex-row justify-between">
-                    <input type="text" placeholder="id_info" value={ idInfo } onChange= { e => (setIdInfo( e.target.value )) }
+                    <input type="text" placeholder="id_info" disabled readOnly value={ idInfo } onChange= { e => (setIdInfo( e.target.value )) }
                            className="w-1/12 px-3 py-2 border border-gray-300 rounded-md focus:outline-none" />
                     
                     <div className="w-10/12">
@@ -193,7 +247,7 @@ export function Main() {
                                                                             setIsActive( false ) } } >
                                                         { 
                                                             repo.info_local !== null 
-                                                                ? repo.info_cod +"-"+ repo.info_secr +"-"+ repo.info_local +"-"+ repo.info_nome
+                                                                ? repo.info_cod +"-"+ repo.info_local +"-"+ repo.info_secr +"-"+ repo.info_nome
                                                                 : repo.info_local
                                                         }
                                                     </li>
@@ -261,10 +315,10 @@ export function Main() {
                     </button>
                 </div>
                 
-                <div className="text-center"> Nao tem cadastro? Sem problema. 
-                    <Link to="/justsearch" className="font-bold hover:underline"> Clique aqui </Link>
-                     para visualizar a lista de ramais!
-                </div>
+                
+                {/* <div className="text-center"> Para efetuar logout,
+                    <Link to="/login" className="font-bold hover:underline"> Clique aqui </Link>
+                </div> */}
                 
 
             </form>

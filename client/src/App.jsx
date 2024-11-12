@@ -27,9 +27,9 @@ function App() {
 
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={ <Main /> } />
+        <Route path="/main" element={ <Main /> } />
         <Route path="/login" element={ <Login /> } />
-        <Route path="/justsearch" element={ <JustSearch /> } />
+        <Route path="/" element={ <JustSearch /> } />
       </Routes>
     </BrowserRouter>
 
