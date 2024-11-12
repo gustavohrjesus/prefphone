@@ -1,3 +1,13 @@
+POST http://localhost:3000/login
+Content-Type: application/json
+
+{
+    "name" : "root",
+    "password" : "123456789"
+}
+
+### BLOCO ACIMA: PRIVATE ROUTE (com token) - LOGIN de usuario - PERFIL OPERADOR
+
 GET http://localhost:3000/getInfos
 Content-Type: application/json
 ### BLOCO ACIMA: PUBLIC ROUTE (sem token) - LISTA DE TODAS INFOS - PERFIL OPERADOR
@@ -32,13 +42,13 @@ Content-Type: application/json
 
 PUT http://localhost:3000/updateInfos
 Content-Type: application/json
-## Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicGVyZmlsIjoxLCJpYXQiOjE3MjkwMDkzODAsImV4cCI6MTcyOTAwOTUwMH0.rYWGnjYWnR8YoOkmIY8x4I7mijudplYgfaJpynrlVfM
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwicGVyZmlsIjoxLCJpYXQiOjE3MzEzNTE0MDUsImV4cCI6MTczMTM1MTUyNX0.vSB5LOfENDTGggVJnEdK-18eKRMWuMDHxRC1i0xLBL4
 
 {
     "info_id" : 300,
-    "info_secretar" : "comad6",
-    "info_sect" : "comad_info_6",
-    "info_addr" : "comad_nicolauZarvos6",
+    "info_secretar" : "comad5",
+    "info_sect" : "comad_info_5",
+    "info_addr" : "comad_nicolauZarvos5",
     "info_typconn" : "",
     "info_ip" : "",
     "info_email" : "comad1@lins.sp.gov.br",

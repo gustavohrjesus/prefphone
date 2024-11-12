@@ -10,8 +10,23 @@ router.post('/registerInfos', async (req, res) => {
         console.log('privr -> registerInfos')
         const info = req.body
 
+        const secr    = req.body.info_secretar.toLowerCase().trim();
+        const local   = req.body.info_sect.toLowerCase().trim();
+        const ender   = req.body.info_addr.toLowerCase().trim();
+        const tipconn = req.body.info_typconn.toLowerCase().trim();
+
+        const ip    = req.body.info_ip.toLowerCase().trim();
+        const email   = req.body.info_email.toLowerCase().trim();
+        const nome   = req.body.info_name.toLowerCase().trim();
+        const obs = req.body.info_obs.toLowerCase().trim();
+
+        const fone    = req.body.info_fonemain.toLowerCase().trim();
+        const foneaux = req.body.info_fonesecond.toLowerCase().trim();
+        const fonecel = req.body.info_fonemobil.toLowerCase().trim();
+        const foneddr = req.body.info_fonemain.toLowerCase().trim();
+
         await db.query('INSERT INTO informacoes (info_secr, info_local, info_ender, info_tipconn, info_ip, info_email, info_nome, info_obs) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
-                        [ info.secr, info.local, info.ender, info.tipconn, info.ip, info.email, info.nome, info.obs ], (err, response) => {
+                        [ secr, local, ender, tipconn, ip, email, nome, obs ], (err, response) => {
             if(err){
                 res.status(500).json( { msg: "Erro no servidor! Tente novamente mais tarde." } )
                 console.log(err.sqlMessage)
@@ -24,13 +39,13 @@ router.post('/registerInfos', async (req, res) => {
                     
                     
                     db.query("INSERT INTO telefones (fone_codinfofone, fone_info, fone_info_aux, fone_info_cel, fone_ddr) VALUES (?, ?, ?, ?, ?)", 
-                                [res_maxid[0].info_cod, info.fone, info.foneaux, info.fonecel, info.foneddr ], (err, response)=>{
+                                [res_maxid[0].info_cod, fone, foneaux, fonecel, foneddr ], (err, response)=>{
                         if(err){
                             return res.status(500).json( { msg: "Erro no servidor! Tente novamente mais tarde." } )
                         }
                     })
                 })
-                res.status(201).json(`Informacao cadastrada com sucesso!`)
+                res.status(201).json({ msg: 'Informacao cadastrada com sucesso!', response })
             }
         } )
 

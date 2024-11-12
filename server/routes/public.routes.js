@@ -1,7 +1,52 @@
 import express from "express";
 import db from '../services/connection.js'
+import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken'
 
 const router = express.Router()
+
+const JWT_SECRET = process.env.SECRET
+
+// ------------- LOGIN - BEGIN ------------
+router.post('/login', async (req, res) => {
+    console.log(`CHEGOU LOGIN BACKEND`)
+    try{
+        console.log(`ENTROU TRY`)
+        const userInfo = req.body
+
+        await db.query( 'SELECT * FROM passcode WHERE name_adm = ?', [ userInfo.name ], (err, response) => {
+            if(err){
+                return res.status(500).json({ msg: 'Erro no servidor. Tente mais tarde!!' })
+                console.log(err.sqlMessage)
+            }
+
+            if(response.length <= 0){ // Se maior que zero, temos um usuario (email) e senha validos no bd
+                return res.status(404).json({ msg: "Usuario nao localizado!" })
+            }
+
+            bcrypt.compare( userInfo.password, response[0].password, ( erro, resu ) => {
+                if(!resu){
+                    return res.status(400).json({ msg: 'Informacoes Invalidas!', erro })
+                }
+
+                const token = jwt.sign( 
+                    { id: response[0].codpass, perfil: response[0].tipper }, 
+                    JWT_SECRET, 
+                    { expiresIn: '60m' } 
+                )
+    
+                // res.status(200).json( token )
+                res.status(200).json({ token, msg: 'Usuario logado com sucesso' })
+                // // return res.status(200).json( response[0] )
+                console.log(response)
+            } )
+        })
+
+    } catch(error){
+        console.log(`CATCH ERROR: ${ error }`)    }
+
+})
+// ------------- LOGIN - END --------------
 
 //! ------ GET ALL INFOS BY INFO_COD - BEGIN ------
 router.post( '/getInfosById', (req, res) => {    

@@ -32,13 +32,12 @@ Como solucao, para rodar o nodemon, utilizamos o comando abaixo, que chama o nod
 
 # INSTALANDO O CORS NO BACKEND PARA QUE O FRONTEND POSSA ACESSA-LO
 `npm install cors`
-***
 
-# ---- AINDA FALTAM INSTALAR AS LIBS ABAIXO
 ## BCRYPT
 `npm install bcrypt`
 
 ## JWT - JSON WEB TOKEN
 `npm install jsonwebtoken`
+***
 
-
+# ---- AINDA FALTAM INSTALAR AS LIBS ABAIXO
