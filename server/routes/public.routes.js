@@ -34,9 +34,10 @@ router.post('/login', async (req, res) => {
                     JWT_SECRET, 
                     { expiresIn: '60m' } 
                 )
-    
+                
+                const userName = userInfo.name
                 // res.status(200).json( token )
-                res.status(200).json({ token, msg: 'Usuario logado com sucesso' })
+                res.status(200).json({ token, msg: 'Usuario logado com sucesso', userName })
                 // // return res.status(200).json( response[0] )
                 console.log(response)
             } )
