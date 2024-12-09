@@ -37,6 +37,7 @@ export function Main() {
 
     
     const token = localStorage.getItem("token")
+    const userName = localStorage.getItem("user")
 
     const headers = {
         'Content-type': 'application/json',
@@ -50,6 +51,19 @@ export function Main() {
         }
         getAllInfos()
     }
+    
+    // const Private = ( { children } ) => {
+    //     if(token){
+    //         // recoveredUser = localStorage.getItem('user')
+    //         // usuario = JSON.parse(recoveredUser)
+    //     }
+
+    //     if( token === null || !token ){
+    //         // return <Navigate to="/" />
+    //         navigate('/login')
+    //     }
+    //     return children
+    // }
 
     async function handleSubmit( event ){
         event.preventDefault()
@@ -191,6 +205,7 @@ export function Main() {
 
     const logout = () =>{
         localStorage.removeItem("token")
+        localStorage.removeItem("user")
         api.defaults.headers.Authorization = null
         toast.error(`Sessao encerrada!`)
 
@@ -207,7 +222,9 @@ export function Main() {
     return (
         <div className="max-w-5xl mx-auto mt-10 bg-white p-8 border border-gray-300 rounded-lg shadow-lg">
             
-            <div className="text-end">
+            {/* <div className="text-end"> */}
+            <div className=" flex flex-row justify-between">
+                <div className="bg-green-700 font-semibold text-white py-2 px-4 rounded-3xl border border-green-800 hover:bg-green-600">Usuario: {userName}</div>
                 <button type="button" 
                         className="w-1/12 bg-cyan-900 text-white py-2 px-4 rounded-md hover:bg-cyan-800" 
                         onClick={ () => logout() } >
@@ -219,13 +236,14 @@ export function Main() {
 
             <form className="flex flex-col gap-4" onSubmit={ handleSubmit }>
                 <div className=" flex flex-row justify-between">
-                    <input type="text" placeholder="id_info" disabled readOnly value={ idInfo } onChange= { e => (setIdInfo( e.target.value )) }
+                    <input type="text" placeholder="ID" disabled readOnly value={ idInfo } onChange= { e => (setIdInfo( e.target.value )) }
                            className="w-1/12 px-3 py-2 border border-gray-300 rounded-md focus:outline-none" />
                     
                     <div className="w-10/12">
                         <input type="search" placeholder="Pesquise por Setor/Depto ..." value={ sector } onChange= { e => (setSector( e.target.value )) } 
                             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none"
-                            onFocus={ () => { setIsActive(true) } } />
+                            onFocus={ () => { setIsActive(true) } }
+                        />
 
                         <div style={{ display: isActive ? 'inherit' : 'none' }}>
                             { sector.length > 0 ?
@@ -247,7 +265,7 @@ export function Main() {
                                                                             setIsActive( false ) } } >
                                                         { 
                                                             repo.info_local !== null 
-                                                                ? repo.info_cod +"-"+ repo.info_local +"-"+ repo.info_secr +"-"+ repo.info_nome
+                                                                ? repo.info_cod +"-"+ repo.info_local +"-"+ repo.info_secr +" - "+ repo.info_nome +" - "+ repo.fone_info +" - "+ repo.fone_info_aux +" - "+ repo.fone_info_cel
                                                                 : repo.info_local
                                                         }
                                                     </li>
@@ -266,41 +284,61 @@ export function Main() {
 
                 <div className=" flex flex-row justify-between">
                     <input type="text" placeholder="Secretaria" value={ secretariat } onChange= { e => (setSecretariat( e.target.value )) }
-                           className="w-7/12 px-3 py-2 border border-gray-300 rounded-md focus:outline-none" />
+                           className="w-7/12 px-3 py-2 border border-gray-300 rounded-md focus:outline-none" 
+                           onClick={ () => { setIsActive(false) } }
+                    />
 
                     <input type="text" placeholder="Nome" value={ name } onChange= { e => (setName( e.target.value )) }
-                           className="w-4/12 px-3 py-2 border border-gray-300 rounded-md focus:outline-none" />                    
+                           className="w-4/12 px-3 py-2 border border-gray-300 rounded-md focus:outline-none" 
+                           onClick={ () => { setIsActive(false) } }
+                    />                    
                 </div>
 
                 <div className="flex-row">
                     <input type="text" placeholder="Endereco" value={ address } onChange= { e => (setAddress( e.target.value )) }
-                           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none" />
+                           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none" 
+                           onClick={ () => { setIsActive(false) } }
+                    />
                 </div>
                 
                 <div className=" flex flex-row justify-between">
                     <input type="text" placeholder="Tipo de conexao" value={ typConn } onChange= { e => (setTypConn( e.target.value )) }
-                           className="w-6/12 px-3 py-2 border border-gray-300 rounded-md focus:outline-none" />
+                           className="w-6/12 px-3 py-2 border border-gray-300 rounded-md focus:outline-none" 
+                           onClick={ () => { setIsActive(false) } }
+                    />
                     <input type="text" placeholder="IP" value={ ip } onChange= { e => (setIp( e.target.value )) }
-                           className="w-5/12 px-3 py-2 border border-gray-300 rounded-md focus:outline-none" />
+                           className="w-5/12 px-3 py-2 border border-gray-300 rounded-md focus:outline-none" 
+                           onClick={ () => { setIsActive(false) } }
+                    />
                 </div>
 
                 <div className="flex-row">
                     <input type="email" placeholder="Email" value={ email } onChange= { e => (setEmail( e.target.value )) }
-                           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none" />
+                           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none" 
+                           onClick={ () => { setIsActive(false) } }
+                    />
                 </div>
 
                 <div className=" flex flex-row justify-between">
                     <input type="tel" placeholder="Telefone (principal)" value={ foneMain } onChange= { e => (setFoneMain( e.target.value )) } 
-                           className="w-4/12 px-3 py-2 border border-gray-300 rounded-md focus:outline-none" />
+                           className="w-4/12 px-3 py-2 border border-gray-300 rounded-md focus:outline-none" 
+                           onClick={ () => { setIsActive(false) } }
+                    />
                     <input type="text" placeholder="Telefone (secundario)" value={ foneSecond } onChange= { e => (setFoneSecond( e.target.value )) } 
-                           className="w-4/12 px-3 py-2 border border-gray-300 rounded-md focus:outline-none" />
+                           className="w-4/12 px-3 py-2 border border-gray-300 rounded-md focus:outline-none" 
+                           onClick={ () => { setIsActive(false) } }
+                    />
                     <input type="text" placeholder="Telefone (celular)" value={ foneMobile } onChange= { e => (setFoneMobile( e.target.value )) } 
-                           className="w-3/12 px-3 py-2 border border-gray-300 rounded-md focus:outline-none" />
+                           className="w-3/12 px-3 py-2 border border-gray-300 rounded-md focus:outline-none" 
+                           onClick={ () => { setIsActive(false) } }
+                    />
                 </div>
 
                 <div className="flex-row">
                     <input type="text" placeholder="Observacao" value={ observation } onChange= { e => (setObservation( e.target.value )) } 
-                           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none" />
+                           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none" 
+                           onClick={ () => { setIsActive(false) } }
+                    />
                 </div>
                 
                 <div className="text-center flex flex-row justify-around">

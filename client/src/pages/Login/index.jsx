@@ -15,7 +15,7 @@ export function Login(){
 
         console.log(`LOGIN FRONTEND ->`, nameRef.current.value)
         try {
-            const { data: { token, msg } } = await api.post('/login', {
+            const { data: { token, msg, userName } } = await api.post('/login', {
                 name: nameRef.current.value,
                 password: passwordRef.current.value
             })
@@ -26,6 +26,7 @@ export function Login(){
             }
 
             localStorage.setItem( 'token', token )
+            localStorage.setItem( 'user', userName )
             toast.success(msg)
             navigate('/main')
         } catch(err){

@@ -1,5 +1,6 @@
 {
   "name": "client",
+  "homepage": "http://fone.lins.sp.gov.br/prefphone/client/dist",
   "private": true,
   "version": "0.0.0",
   "type": "module",

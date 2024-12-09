@@ -52,12 +52,17 @@ export function JustSearch() {
         }
     }
 
+    function tirarAcentos(word){
+        return word.normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+    }
+
     let filteredInfos = ''
     if( listInfo !== '' && listInfo.length > 0  ){
         filteredInfos = sector.length > 0
             ? (
-                listInfo.filter( info => ( info.info_secr.toLowerCase()+"-"+info.info_local.toLowerCase()+"-"+info.info_nome.toLowerCase())
-                                          .includes(sector.toLowerCase()) )
+                listInfo.filter( info => tirarAcentos( info.info_secr.toLowerCase()+"-"+info.info_local.toLowerCase()+"-"+info.info_nome.toLowerCase())
+                                          .includes( tirarAcentos(sector.toLowerCase()) ) 
+                               )
             )
             : []
     }
@@ -109,18 +114,20 @@ export function JustSearch() {
             </h2>
             <form className="flex flex-col gap-4">
                 <div className=" flex flex-row justify-between">
-                    <input type="text" placeholder="id_info" disabled readOnly value={ idInfo } onChange= { e => (setIdInfo( e.target.value )) }
-                           className="w-1/12 px-3 py-2 border border-gray-300 rounded-md focus:outline-none" />
+                    <input type="text" placeholder="ID" disabled readOnly value={ idInfo } onChange= { e => (setIdInfo( e.target.value )) }
+                           className="w-1/12 px-3 py-2 border border-gray-300 rounded-md focus:outline-none"
+                    />
                     
                     <div className="w-10/12">
                         <input type="search" placeholder="Pesquise por Setor/Depto ..." value={ sector } onChange= { e => (setSector( e.target.value )) } 
                             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none"
-                            onFocus={ () => { setIsActive(true) } } />
+                            onFocus={ () => { setIsActive(true) } }
+                        />
 
-                        <div style={{ display: isActive ? 'inherit' : 'none' }}>
+                        <div id="searchSelect" style={{ display: isActive ? 'inherit' : 'none' }} >
                             { sector.length > 0 ?
                             (                                    
-                                <ul className="myUL">
+                                <ul className="myUL" >
                                     <div className="dropdown-content">
                                     {   
                                         listInfo.length > 0 
@@ -134,10 +141,13 @@ export function JustSearch() {
                                                                                                 repo.fone_info, repo.fone_info_aux, repo.fone_info_cel, repo.info_obs,
                                                                                                 repo.fone_ddr
                                                                                             )
-                                                                            setIsActive( false ) } } >
+                                                                            setIsActive( false ) } 
+                                                        }
+                                                        
+                                                    >
                                                         { 
                                                             repo.info_local !== null 
-                                                                ? repo.info_cod +"-"+ repo.info_secr +"-"+ repo.info_local +"-"+ repo.info_nome
+                                                                ? repo.info_secr +"-"+ repo.info_local +" - "+ repo.info_nome +" - "+ repo.fone_info +" - "+ repo.fone_info_aux +" - "+ repo.fone_info_cel
                                                                 : repo.info_local
                                                         }
                                                     </li>
@@ -156,41 +166,50 @@ export function JustSearch() {
 
                 <div className=" flex flex-row justify-between">
                     <input type="text" placeholder="Secretaria" value={ secretariat } onChange= { e => (setSecretariat( e.target.value )) }
-                           className="w-7/12 px-3 py-2 border border-gray-300 rounded-md focus:outline-none" />
+                           className="w-7/12 px-3 py-2 border border-gray-300 rounded-md focus:outline-none" 
+                           onClick={ () => { setIsActive(false) } }
+                    />
 
                     <input type="text" placeholder="Nome" value={ name } onChange= { e => (setName( e.target.value )) }
-                           className="w-4/12 px-3 py-2 border border-gray-300 rounded-md focus:outline-none" />                    
+                           className="w-4/12 px-3 py-2 border border-gray-300 rounded-md focus:outline-none" 
+                           onClick={ () => { setIsActive(false) } }
+                    />                    
                 </div>
 
                 <div className="flex-row">
                     <input type="text" placeholder="Endereco" value={ address } onChange= { e => (setAddress( e.target.value )) }
-                           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none" />
-                </div>
-                
-                <div className=" flex flex-row justify-between">
-                    <input type="text" placeholder="Tipo de conexao" value={ typConn } onChange= { e => (setTypConn( e.target.value )) }
-                           className="w-6/12 px-3 py-2 border border-gray-300 rounded-md focus:outline-none" />
-                    <input type="text" placeholder="IP" value={ ip } onChange= { e => (setIp( e.target.value )) }
-                           className="w-5/12 px-3 py-2 border border-gray-300 rounded-md focus:outline-none" />
+                           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none" 
+                           onClick={ () => { setIsActive(false) } }
+                    />
                 </div>
 
                 <div className="flex-row">
                     <input type="email" placeholder="Email" value={ email } onChange= { e => (setEmail( e.target.value )) }
-                           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none" />
+                           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none" 
+                           onClick={ () => { setIsActive(false) } }
+                    />
                 </div>
 
                 <div className=" flex flex-row justify-between">
                     <input type="tel" placeholder="Telefone (principal)" value={ foneMain } onChange= { e => (setFoneMain( e.target.value )) } 
-                           className="w-4/12 px-3 py-2 border border-gray-300 rounded-md focus:outline-none" />
+                           className="w-4/12 px-3 py-2 border border-gray-300 rounded-md focus:outline-none" 
+                           onClick={ () => { setIsActive(false) } }
+                    />
                     <input type="text" placeholder="Telefone (secundario)" value={ foneSecond } onChange= { e => (setFoneSecond( e.target.value )) } 
-                           className="w-4/12 px-3 py-2 border border-gray-300 rounded-md focus:outline-none" />
+                           className="w-4/12 px-3 py-2 border border-gray-300 rounded-md focus:outline-none" 
+                           onClick={ () => { setIsActive(false) } }
+                    />
                     <input type="text" placeholder="Telefone (celular)" value={ foneMobile } onChange= { e => (setFoneMobile( e.target.value )) } 
-                           className="w-3/12 px-3 py-2 border border-gray-300 rounded-md focus:outline-none" />
+                           className="w-3/12 px-3 py-2 border border-gray-300 rounded-md focus:outline-none" 
+                           onClick={ () => { setIsActive(false) } }
+                    />
                 </div>
 
                 <div className="flex-row">
                     <input type="text" placeholder="Observacao" value={ observation } onChange= { e => (setObservation( e.target.value )) } 
-                           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none" />
+                           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none" 
+                           onClick={ () => { setIsActive(false) } }
+                    />
                 </div>
                 
                 <div className="text-center flex flex-row justify-around">
