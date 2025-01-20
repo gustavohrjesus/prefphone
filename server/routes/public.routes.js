@@ -32,7 +32,7 @@ router.post('/login', async (req, res) => {
                 const token = jwt.sign( 
                     { id: response[0].codpass, perfil: response[0].tipper }, 
                     JWT_SECRET, 
-                    { expiresIn: '60m' } 
+                    { expiresIn: '2m' } 
                 )
                 
                 const userName = userInfo.name

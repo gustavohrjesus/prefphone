@@ -22,6 +22,8 @@ export function Login(){
 
             // console.log( 'LOGOU COM SUCESSO.', token, msg )
             if(!token){
+                localStorage.setItem( 'token', '' )
+                localStorage.setItem( 'user', '' )
                 navigate('/login')
             }
 
