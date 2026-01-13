@@ -1,13 +1,14 @@
 # PREFFONE APP
 
+## PrefFone - Pesquisa de Ramais
 <p align="center">
-    <img width="470" height="300" src="./client/src/assets/PrefFone_PesquisRamal.gif">
-    <label>PrefFone - Pesquisa de Ramais</label>
+    <img width="470" height="300" src="./client/src/assets/PrefFone_PesquisRamal.gif">    
 </p>
 
+    
+## PrefFone - Edição de Ramais e Informações
 <p align="center">
-    <img width="470" height="300" src="./client/src/assets/PrefFone_EditaRamalInfos.gif">    
-    <label>PrefFone - Edição de Ramais e Informações</label>
+    <img width="470" height="300" src="./client/src/assets/PrefFone_EditaRamalInfos.gif">
 </p>
 
 ***
